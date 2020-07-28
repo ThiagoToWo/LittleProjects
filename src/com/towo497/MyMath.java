@@ -8,7 +8,7 @@ import java.io.PrintStream;
 /**
  * Esta classe dispõe métodos para vários cálculos matemáticos.
  * @autor Thiago de O. Alves
- * @version 1.1
+ * @version 1.2
  */ 
 public class MyMath {
 	/**
@@ -41,17 +41,17 @@ public class MyMath {
 		}
 		return fac;
 	}
-	/**Este método implementa o algoritmo de Elclides para calcular e retornar o mdc
-	 * (máximo divisor comum) entre dois inteiros.
+	/**Este método implementa o algoritmo de Elclides para calcular e retornar o máximo divisor comum
+	 * (greatest common divisor) entre dois inteiros.
 	 * @param m um número inteiro positovo.
 	 * @param n um número inteiro positivo.
 	 * @return O mdc dos parâmetros.
 	 * @since 1.0
 	 */
-	public static int mdc(int m, int n) {
-		int r;
+	public static long gcd(long m, long n) {
+		long r;
 		if (m < n) {
-			int temp = m;
+			long temp = m;
 			m = n;
 			n = temp;
 		}
@@ -63,12 +63,23 @@ public class MyMath {
 		return m;
 	}
 	/**
+	 * Este método calcula e retorna o mínimo múltiplo comum (least common multiple)
+	 * entre dois inteiros.
+	 * @param m um interior positivo
+	 * @param n um inteiro positivo.
+	 * @return o mmc dos parâmetros.
+	 * @since 1.2
+	 */
+	public static long lcm(long m, long n) {
+		return m * n / gcd(m, n);
+	}
+	/**
 	 * Este método verifica se um número inteiro é primo.
 	 * @param n um número inteiro.
 	 * @return true se n for primo e false se não for.
 	 * @since 1.0
 	 */
-	public static boolean isPrime(int n) {
+	public static boolean isPrime(long n) {
 		if (n < 0) n *= -1;
 		if (n < 2) return false;
 		if (n < 4) return true;
@@ -86,7 +97,7 @@ public class MyMath {
 	 * @return O valor numério do polinômio em x.
 	 * @since 1.1
 	 */	
-	public static double polinomio(double x, double[] coef) {
+	public static double p(double x, double[] coef) {
 		int gr = coef.length - 1;
 		double sum = coef[gr];
 		for (int i = gr - 1; i >= 0; i--) {
@@ -101,15 +112,18 @@ public class MyMath {
 	 * @param n o total de elementos do conjunto.
 	 * @param p o múmero de elememtos da parte agrupada.
 	 * @return O arranjo de n, p a p.
-	 * @throws ArithmeticException se a entrada não satisfizer as condições n > 0, p > 0 e n > p.	 
-	 * @see ArithmeticException.
+	 * @throws IllegalArgumentException se a entrada não satisfizer as condições n > 0, p > 0 e n > p.
+	 * @throws ArithmeticException caso o resultado supere o valor de um long.	 
+	 * @see ArithmeticException
+	 * @see IllegalArgumentException
 	 * @since 1.1
 	 */
 	public static long perm(int n, int p) {
-		if (n < 0 || p < 0 || n < p) throw new ArithmeticException("wrong arguments");
+		if (n < 0 || p < 0 || n < p) throw new IllegalArgumentException("wrong arguments");
 		int arr = 1;
 		for (int i = 1; i <= p; i++, n--)
 			arr *= n;
+		if (arr < 0) throw new ArithmeticException("long overflow");
 		return arr;		
 	}
 	/**
@@ -118,13 +132,14 @@ public class MyMath {
 	 * @param n o total de elementos do conjunto.
 	 * @param p o múmero de elememtos da parte agrupada.
 	 * @return A combinação de n, p a p.
-	 * @throws ArithmeticException se a entrada não satisfizer as condições n > 0, p > 0, n > p
-	 * ou se o valor superar um long.	 
-	 * @see ArithmeticException.
+	 * @throws IllegalArgumentException se a entrada não satisfizer as condições n > 0, p > 0, n > p.
+	 * @throws ArithmeticException caso o resultado supere o valor de um long.	 
+	 * @see ArithmeticException
+	 * @see IllegalArgumentException
 	 * @since 1.1
 	 */
 	public static long comb(int n, int p) {
-		if (n < 0 || p < 0 || n < p) throw new ArithmeticException("wrong arguments");
+		if (n < 0 || p < 0 || n < p) throw new IllegalArgumentException("wrong arguments");
 		long cmb = 1;
 		for (int i = 1; i <= p; i++, n--)
 			cmb = cmb * n / i;
@@ -134,12 +149,16 @@ public class MyMath {
 	/**
 	 * Este método imprime no console, através de um PrintStream conectado a um OutputStream dado 
 	 * pelo parâmetro, o triângulo de Pascal até uma determinada linha.
-	 * O método usa long comb(int, int), então está sujeito a suas exceções, como estouro de long.
+	 * O método usa long comb(int, int) de MyMath, então está sujeito a suas exceções, como estouro de long.
 	 * @param output um objeto OutputStream (ex. System.out).
 	 * @param line o número de linhas do triângulo, tendo a última como 61.
 	 * @throws ArithmeticException caso o valor de line seja maior que 61, pois nesse caso as linhas 
 	 * não são completas por ocorrerem estouros de long. 
-	 * @see PrintStream, OutputStream, comb(int n, int p), ArithmeticException.
+	 * @see PrintStream
+	 * @see OutputStream
+	 * @see long com.towo497.MyMath.comb(int n, int p)
+	 * @see ArithmeticException
+	 * @since 1.1
 	 */
 	public static void printPascal(OutputStream output, int line) {
 		if (line > 61) throw new ArithmeticException("long overflow");
@@ -154,18 +173,22 @@ public class MyMath {
 	/**
 	 * Este método imprime em um arquivo de texto o triângulo de Pascal até uma determinada linha.
 	 * O método usa long comb(int, int) de MyMath, então está sujeito a suas exceções, como estouro de long.
-	 * @param output um objeto File (ex. new File("pascal.txt")).
+	 * @param file um objeto File (ex. new File("pascal.txt")).
 	 * @param line o número de linhas do triângulo, tendo a última como 61.
 	 * @throws ArithmeticException caso o valor de line seja maior que 61, pois nesse caso as linhas 
 	 * não são completas por ocorrerem estouros de long. 
-	 * @see PrintStream, File, comb(int n, int p), ArithmeticException, FileNotFoundException.
+	 * @see PrintStream
+	 * @see File
+	 * @see long com.towo497.MyMath.comb(int n, int p)
+	 * @see ArithmeticException
+	 * @see FileNotFoundException
 	 * @since 1.1
 	 */
-	public static void printPascal(File output, int line) {
+	public static void printPascal(File file, int line) {
 		if (line > 61) throw new ArithmeticException("long overflow");
 		PrintStream p = null;
 		try {
-			p = new PrintStream(output);
+			p = new PrintStream(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -175,5 +198,85 @@ public class MyMath {
 				p.printf("%d\t", comb(i, j));
 			p.println();
 		}		
+	}
+	/**
+	 * Este método calcula e retorna o k-ésimo dígito do inteiro positivo n. Por exemplo, se n for o 
+	 * inteiro 46785, a chamada digit(n, 0) retornaria o dígito 5 e a chamada digit(n, 3) retornaria
+	 * o dígito 6. Observe que os dígitos são numerados da direita para a esquerda começando pelo 
+	 * dígito "0".
+	 * @param n o número inteiro do qual se deseja extrair os dígitos.
+	 * @param k a posição do dígito a ser extraído, sendo k = 0 o dígito da unidade.
+	 * @return O dígito da posição k no número n.
+	 * @since 1.2
+	 */
+	public static int digit(long n, int k) {
+		for (int i = 0; i < k; i++)
+			n /= 10;
+		return (int) (n % 10);
+	}
+	/**
+	 * Este método calcula e retorna x elevado a n, onde n pode ser qualquer inteiro.
+	 * @param x o valor da base.
+	 * @param n o expoente, que pode ser um inteiro positivo ou negativo.
+	 * @return x elevado a n.
+	 * @throws ArithmeticException se x = 0 e n negativo.
+	 * @since 1.2
+	 */
+	public static double pow(double x, int n) {
+		if (x == 0 && n > 0) return 0;
+		if (x == 0 && n < 0) throw new ArithmeticException("division by zero");
+		if (n == 0) return 1;
+		double y = 1;
+		for (int i = 0; i < n; i++) 
+			y *= x;
+		for (int i = 0; i > n; i--)
+			y /= x;
+		return y;
+	}
+	/**
+	 * Este método verifica se um dado inteiro é um número triangular. Os 10 primeiros números
+	 * triangulares são 0, 1, 3, 6, 10, 15, 21, 28, 36 e 45.
+	 * @param n um número inteiro positivo.
+	 * @return True caso n seja triangular e false caso contário.
+	 * @since 1.2
+	 */
+	public static boolean isTriangular(int n) {
+		int x = 0;
+		int dx = 1;
+		while (x < n) 
+			x += dx++;
+		if (x == n) return true;
+		else return false;
+	}
+	/**
+	 * Este método verifica se um dado inteiro é um número quadrado. Os 10 primeiros números
+	 * quadrados são 0, 1, 4, 9, 16, 25, 36, 49, 64 e 81.
+	 * @param n um número inteiro positivo.
+	 * @return true caso n seja quadrado e false caso contário.
+	 * @since 1.2
+	 */
+	public static boolean isSquare(int n) {
+		int x = 0;
+		while (x * x < n)
+			x++;
+		if (x * x == n) return true;
+		else return false;
+	}
+	/**
+	 * Este método verifica se um dado inteiro é um número pentagonal. Os 10 primeiros números
+	 * pentagonais são 0, 1, 5, 12, 22, 35, 51, 70, 92 e 117.
+	 * @param n um número inteiro positivo.
+	 * @return true caso n seja pentagonal e false caso contário.
+	 * @since 1.2
+	 */
+	public static boolean isPentagonal(int n) {
+		int x = 0;
+		int dx = 1;
+		while (x < n) {
+			x += dx;
+			dx += 3;
+		}
+		if (x == n) return true;
+		else return false;
 	}
 }
