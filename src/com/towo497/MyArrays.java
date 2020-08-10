@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Esta classe dispõe métodos para manipular arrays.
  * @autor Thiago de O. Alves
- * @version 1.0
+ * @version 1.1
  */ 
 public class MyArrays {
 	/**
@@ -324,7 +324,7 @@ public class MyArrays {
 	 * @param t o array cuja representação em String será retornada.
 	 * @return a representação em String de t.
 	 * @since 1.0
-	 * @see java.util.Arrays.toString().
+	 * @see java.util.Arrays#toString(double[]).
 	 */
 	public static String toString(double[] t) {
 		return Arrays.toString(t);
@@ -334,7 +334,7 @@ public class MyArrays {
 	 * @param t o array cuja representação em String será retornada.
 	 * @return a representação em String de t.
 	 * @since 1.0
-	 * @see java.util.Arrays.toString().
+	 * @see java.util.Arrays#toString(int[]).
 	 */
 	public static String toString(int[] t) {
 		return Arrays.toString(t);
@@ -343,10 +343,64 @@ public class MyArrays {
 	 * Este método retorna um String contendo o conteúdo do array;
 	 * @param t o array cuja representação em String será retornada.
 	 * @return a representação em String de t.
+	 * @since 1.1
+	 * @see java.util.Arrays#toString(char[]).
+	 */
+	public static String toString(char[] t) {
+		return Arrays.toString(t);
+	}
+	/**
+	 * Este método retorna um String contendo o conteúdo do array;
+	 * @param t o array cuja representação em String será retornada.
+	 * @return a representação em String de t.
 	 * @since 1.0
-	 * @see java.util.Arrays.toString().
+	 * @see java.util.Arrays#toString(Object[]).
 	 */
 	public static String toString(Object[] t) {
 		return Arrays.toString(t);
+	}
+	/**
+	 * Este método inverte a ordem dos elementos de um array.
+	 * @param t o array ao qual a ordem dos elementos pretende ser invertida.
+	 * @since 1.1
+	 */
+	public static void reverse(int[] t) {
+		int n = t.length;
+		for (int i = 0; i < n / 2; i++)
+			swap(t, i, n - 1 - i);
+	}		
+	/**
+	 * Este método inverte a ordem dos elementos de um array.
+	 * @param t o array ao qual a ordem dos elementos pretende ser invertida.
+	 * @since 1.1
+	 */
+	public static void reverse(double[] t) {
+		int n = t.length;
+		for (int i = 0; i < n / 2; i++)
+			t[i] = t[n - 1 - i];
+	}
+	/**
+	 * Este método troca de posição dois elementos de um array.
+	 * @param t array do qual se deseja trocar a posição de elementos.
+	 * @param i o índice do primeiro elemento a ser trocado.
+	 * @param j o índice do segundo elemento a ser trocado.
+	 * @since 1.1
+	 */
+	public static void swap(int[] t, int i, int j) {
+		int temp = t[i];
+		t[i] = t[j];
+		t[j] = temp;
+	}
+	/**
+	 * Este método troca de posição dois elementos de um array.
+	 * @param t array do qual se deseja trocar a posição de elementos.
+	 * @param i o índice do primeiro elemento a ser trocado.
+	 * @param j o índice do segundo elemento a ser trocado.
+	 * @since 1.1
+	 */
+	public static void swap(double[] t, int i, int j) {
+		double temp = t[i];
+		t[i] = t[j];
+		t[j] = temp;
 	}
 }
