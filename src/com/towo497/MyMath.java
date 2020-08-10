@@ -8,27 +8,27 @@ import java.io.PrintStream;
 /**
  * Esta classe dispõe métodos para vários cálculos matemáticos.
  * @autor Thiago de O. Alves
- * @version 1.2
+ * @version 1.3
  */ 
 public class MyMath {
 	/**
 	 * Este método calcula e retorna a média dos números de um array.
-	 * @param termos um array com os valores a serem cauculados a média.
+	 * @param t um array com os valores a serem cauculados a média.
 	 * @return A média dos valores contidos no parâmetro.
 	 * @since 1.0
 	 */
-	public static double media(double[] termos) {
+	public static double average(double[] t) {
 		double soma = 0;
-		for (int i = 0; i < termos.length; i++) {
-			soma += termos[i];
+		for (int i = 0; i < t.length; i++) {
+			soma += t[i];
 		}
-		return soma / termos.length;
+		return soma / t.length;
 	}
 	/**
 	 * Este método calcula e retorna o fatorial de um inteiro positivo.
 	 * @param n um inteiro positivo de 0 a 20.
 	 * @return O fatorial do parâmetro n ou lança uma ArithmeticException se o resultado estoura um long.
-	 * @throw ArithmeticException se o resultado supera um long.	 
+	 * @throws ArithmeticException se o resultado supera um long.	 
 	 * @see ArithmeticException.
 	 * @since 1.0
 	 */
@@ -67,7 +67,7 @@ public class MyMath {
 	 * entre dois inteiros.
 	 * @param m um interior positivo
 	 * @param n um inteiro positivo.
-	 * @return o mmc dos parâmetros.
+	 * @return O mmc dos parâmetros.
 	 * @since 1.2
 	 */
 	public static long lcm(long m, long n) {
@@ -89,9 +89,26 @@ public class MyMath {
 		return true;		
 	}
 	/**
+	 * Este método preenche e retorna um array booleano de tamanho especificado 
+	 * no parâmetro onde apenas os índices primos são true.
+	 * @param length o tamanho do array a ser retornado.
+	 * @return Um array boolean de índices primos true.
+	 * @since 1.3
+	 */
+	public static boolean[] sieve(int length) {
+		boolean[] isPrime = new boolean[length];
+		for (int i = 2; i < isPrime.length; i++)
+			isPrime[i] = true;	
+		for (int p = 2; p*p <= isPrime.length; p++)			
+				for (int n = 2 * p; n < isPrime.length; n += p)
+					isPrime[n] = false;
+		return isPrime;
+			
+	}
+	/**
 	 * Este método implementa o algoritmo de Horner para calcular o valor numérico de polinômios.
 	 * @param x o valor numérico da variável x.
-	 * @param coeficientes o array contendo os coeficientes na ordem do termo independente
+	 * @param coef o array contendo os coeficientes na ordem do termo independente
 	 * (coef[0]) para o termo dominante (coef[n]), onde n, o índice do elemento do array é o grau de seu
 	 * termo no polinômio.
 	 * @return O valor numério do polinômio em x.
@@ -156,7 +173,7 @@ public class MyMath {
 	 * não são completas por ocorrerem estouros de long. 
 	 * @see PrintStream
 	 * @see OutputStream
-	 * @see long com.towo497.MyMath.comb(int n, int p)
+	 * @see com.towo497.MyMath#comb(int, int)
 	 * @see ArithmeticException
 	 * @since 1.1
 	 */
@@ -179,7 +196,7 @@ public class MyMath {
 	 * não são completas por ocorrerem estouros de long. 
 	 * @see PrintStream
 	 * @see File
-	 * @see long com.towo497.MyMath.comb(int n, int p)
+	 * @see com.towo497.MyMath#comb(int, int)
 	 * @see ArithmeticException
 	 * @see FileNotFoundException
 	 * @since 1.1
@@ -237,7 +254,7 @@ public class MyMath {
 	 * Este método verifica se um dado inteiro é um número triangular. Os 10 primeiros números
 	 * triangulares são 0, 1, 3, 6, 10, 15, 21, 28, 36 e 45.
 	 * @param n um número inteiro positivo.
-	 * @return True caso n seja triangular e false caso contário.
+	 * @return true caso n seja triangular e false caso contário.
 	 * @since 1.2
 	 */
 	public static boolean isTriangular(int n) {
@@ -278,5 +295,63 @@ public class MyMath {
 		}
 		if (x == n) return true;
 		else return false;
+	}
+	/**
+	 * Este método calcula e retorna o produto interno dos primeiros n elementos de dois arrays.
+	 * @param s o primeiro array do produto interno.
+	 * @param n o número de elementos dos dois arrays envolvidos no produto interno entre eles.
+	 * @param t o segundo array do produto interno.
+	 * @return O produto interno dos primeiros n elementos de s e t.
+	 * @since 1.3
+	 */
+	public static double innerProduct(double[] s, int n, double[] t) {
+		double p = 0;
+		for (int i = 0; i < n; i++)
+			p += s[i] * t[i];
+		return p;		
+	}
+	/**
+	 * Este método calcula e retorna o produto interno dos primeiros n elementos de dois arrays.
+	 * @param s o primeiro array para o cálculo do produto interno.
+	 * @param n o número de elementos dos dois arrays envolvidos no produto interno entre eles.
+	 * @param t o segundo array para o cálculo do produto interno.
+	 * @return O produto interno dos primeiros n elementos de s e t.
+	 * @since 1.3
+	 */
+	public static int innerProduct(int[] s, int n, int[] t) {
+		int p = 0;
+		for (int i = 0; i < n; i++)
+			p += s[i] * t[i];
+		return p;		
+	}
+	/**
+	 * Este método calcula e retorna o produto externo (array 3 x 3) dos três
+	 * primeiros elementos de dois arrays.
+	 * @param s o primeiro array para o cálculo do produto externo.
+	 * @param t o segundo array para o cálculo do produto externo.
+	 * @return o produto externo 3 x 3 entre s e t.
+	 * @since 1.3
+	 */
+	public static double[][] outerProduct3(double[] s, double[] t) {
+		double[][] op = new double[3][3];
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				op[i][j] = s[i] * t[j];
+		return op;
+	}
+	/**
+	 * Este método calcula e retorna o produto externo (array 3 x 3) dos três
+	 * primeiros elementos de dois arrays.
+	 * @param s o primeiro array para o cálculo do produto externo.
+	 * @param t o segundo array para o cálculo do produto externo.
+	 * @return o produto externo 3 x 3 entre s e t.
+	 * @since 1.3
+	 */
+	public static int[][] outerProduct3(int[] s, int[] t) {
+		int[][] op = new int[3][3];
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				op[i][j] = s[i] * t[j];
+		return op;
 	}
 }
