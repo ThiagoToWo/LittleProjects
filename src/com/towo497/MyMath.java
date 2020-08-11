@@ -8,7 +8,7 @@ import java.io.PrintStream;
 /**
  * Esta classe dispõe métodos para vários cálculos matemáticos.
  * @autor Thiago de O. Alves
- * @version 1.3
+ * @version 1.4
  */ 
 public class MyMath {
 	/**
@@ -353,5 +353,109 @@ public class MyMath {
 			for (int j = 0; j < 3; j++)
 				op[i][j] = s[i] * t[j];
 		return op;
+	}
+	/**
+	 * Este método calcula e retorna o desvio absoluto médio dos elementos de um array. Este método usa o 
+	 * método double average(double[]) de MyMath para calcular as médias necessárias.
+	 * @param t o array do qual se deseja extrair o desvio absoluto médio dos elementos.
+	 * @return O desvio absoluto médio dos elementos do array passado como parâmetro.
+	 * @since 1.4
+	 * @see com.towo497.MyMath#average(double[])
+	 */
+	public static double meandev(double[] t) {
+		double[] dev = new double[t.length];
+		double mean = average(t);
+		for (int i = 0; i < t.length; i++)
+			dev[i] = Math.abs(t[i] - mean);
+		double md = average(dev);
+		return md;		
+	}
+	/**
+	 * Este método calcula a média dos elementos do array passado como parâmetro e retorna um array com
+	 * o desvio da média de cada elemento respectivo deste array. Ele usa o método double average(double[])
+	 * de MyMath para calcular a média desses elementos antes de calcular o desvio da média.
+	 * @param t o array do qual se deseja extrair o desvio da média de cada elemento.
+	 * @return Um array com o desvio da média de cada elemento de t.
+	 * @since 1.4
+	 * @see com.towo497.MyMath#average(double[])
+	 */
+	public static double[] dev(double[] t) {
+		double[] dev = new double[t.length];
+		double mean = average(t);
+		for (int i = 0; i < t.length; i++)
+			dev[i] = t[i] - mean;
+		return dev;		
+	}
+	/**
+	 * Este método calcula e retorna o desvio padrão dos elementos de um array. Este método usa o 
+	 * método double average(double[]) de MyMath para calcular a média dos elementos do conjunto.
+	 * @param t o array do qual se deseja extrair o desvio padrão dos elementos.
+	 * @return O desvio padrão dos elementos do array passado como parâmetro. É baseado na fórmula
+	 * sqrt(sum / (t.length - 1)).
+	 * @since 1.4
+	 * @see com.towo497.MyMath#average(double[])
+	 * @see java.lang.Math#sqrt(double)
+	 */
+	public static double stdev(double[] t) {
+		double dev = 0;
+		double sum = 0;
+		double mean = average(t);
+		for (int i = 0; i < t.length; i++) {
+			dev = t[i] - mean;
+			sum += dev * dev;
+		}	
+		return Math.sqrt(sum / (t.length - 1));		
+	}
+	/**
+	 * Este método calcula e retorna um array com o escore padrão, ou escore Z, de cada elemento de um
+	 * array passado como parãmetro. Ele usa os métodos double average(double[]) e double stdev(double[])
+	 * de MyMath para calcular a média e o desvio padrão desses elementos.
+	 * @param t o array do qual se deseja extrair o escore padrão de cada elemento.
+	 * @return Um array com o escore padrão de cada elemento de t.
+	 * @since 1.4
+	 * @see com.towo497.MyMath#average(double[])
+	 * @see com.towo497.MyMath#stdev(double[])
+	 */
+	public static double[] z(double[] t) {
+		double[] z = new double[t.length]; 
+		double m = average(t);
+		double s = stdev(t);
+		for (int i = 0; i < t.length; i++)
+			z[i] = (t[i] - m) / s;
+		return z;
+	}
+	/**
+	 * Este método calcula e retorna um array com uma classificaçãp de A a E para de cada elemento de um
+	 * array passado como parãmetro de acordo com sua posição na distribuição normal (escore padrão).
+	 * A classificação é de acordo com a seguinte distribuição:
+	 * A: 1,5 <= z
+	 * B: 0,5 <= z < 1,5
+	 * C: -0,5 <= z < 0,5
+	 * D: -1,5 <= z < -0,5 
+	 * E: z < -1,5
+	 * Desta forma, se os níveis forem normalmente distribuídos, este algoritmo produzirá aproximadamente
+	 * 7% de As, 24% de Bs, 38% de Cs, 24% de Ds e 7% de Es. Aqui os valores de z são o escore padrão.
+	 * Ele usa os métodos double average(double[]) e double stdev(double[]) de MyMath para calcular a média
+	 * e o desvio padrão desses elementos.
+	 * @param t o array do qual se deseja extrair a classificação de cada elemento.
+	 * @return Um array com o escore padrão de cada elemento de t.
+	 * @since 1.4
+	 * @see com.towo497.MyMath#average(double[])
+	 * @see com.towo497.MyMath#stdev(double[])
+	 */
+	public static char[] grade(double[] t) {
+		double[] z = new double[t.length]; 
+		char[] g = new char[t.length];
+		double m = average(t);
+		double s = stdev(t);
+		for (int i = 0; i < t.length; i++) {
+			z[i] = (t[i] - m) / s;
+			if (z[i] >= 1.5) g[i] = 'A';
+			else if (z[i] >= 0.5) g[i] = 'B';
+			else if (z[i] >= -0.5) g[i] = 'C';
+			else if (z[i] >= -1.5) g[i] = 'D';
+			else g[i] = 'E';
+		}
+		return g;
 	}
 }
