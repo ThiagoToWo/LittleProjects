@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.function.DoubleFunction;
 
 /**
  * Esta classe dispõe métodos para vários cálculos matemáticos.
  * @autor Thiago de O. Alves
- * @version 1.4
+ * @version 1.5
  */ 
 public class MyMath {
 	/**
@@ -29,7 +30,7 @@ public class MyMath {
 	 * @param n um inteiro positivo de 0 a 20.
 	 * @return O fatorial do parâmetro n ou lança uma ArithmeticException se o resultado estoura um long.
 	 * @throws ArithmeticException se o resultado supera um long.	 
-	 * @see ArithmeticException.
+	 * @see ArithmeticException
 	 * @since 1.0
 	 */
 	public static long fatorial(int n) {
@@ -425,20 +426,20 @@ public class MyMath {
 		return z;
 	}
 	/**
-	 * Este método calcula e retorna um array com uma classificaçãp de A a E para de cada elemento de um
-	 * array passado como parãmetro de acordo com sua posição na distribuição normal (escore padrão).
-	 * A classificação é de acordo com a seguinte distribuição:
+	 * Este método calcula e retorna um array com uma classificaçãp de A a E para de cada elemento do
+	 * array passado como parâmetro de acordo com sua posição na distribuição normal (escore padrão).
+	 * A classificação é de acordo com a seguinte distribuição: 
 	 * A: 1,5 <= z
 	 * B: 0,5 <= z < 1,5
 	 * C: -0,5 <= z < 0,5
 	 * D: -1,5 <= z < -0,5 
-	 * E: z < -1,5
-	 * Desta forma, se os níveis forem normalmente distribuídos, este algoritmo produzirá aproximadamente
+	 * E: z < -1,5.
+	 * Desta forma, se os níveis fossem normalmente distribuídos, este algoritmo produziria aproximadamente
 	 * 7% de As, 24% de Bs, 38% de Cs, 24% de Ds e 7% de Es. Aqui os valores de z são o escore padrão.
 	 * Ele usa os métodos double average(double[]) e double stdev(double[]) de MyMath para calcular a média
-	 * e o desvio padrão desses elementos.
+	 * e o desvio padrão dos elementos do parâmetro.
 	 * @param t o array do qual se deseja extrair a classificação de cada elemento.
-	 * @return Um array com o escore padrão de cada elemento de t.
+	 * @return Um array com uma classificação A, B, C, D ou E para cada elemento de t.
 	 * @since 1.4
 	 * @see com.towo497.MyMath#average(double[])
 	 * @see com.towo497.MyMath#stdev(double[])
@@ -457,5 +458,86 @@ public class MyMath {
 			else g[i] = 'E';
 		}
 		return g;
+	}
+	/**
+	 * Este método constrói e retorna uma matriz quadrada onde cada linha é uma linha do triângulo
+	 * de Pascal. A primeira linha equivale à linha 0. Para encontrar os coeficientes do binômio até a
+	 * quarta potência, por exemplo, deve-se criar uma matriz de 5 linhas.
+	 * @param n a ordem da matriz (n x n), equivalente a quantidade de linhas.
+	 * @return uma matriz quadrada de n linhas onde cada uma é a correspondente no triângulo de Pascal.
+	 * @since 1.5
+	 */
+	public static int[][] buildPascal(int n) {
+		int[][] p = new int[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if (j > i) p[i][j] = 0;
+				else if (j == 0 || j == i) p[i][j] = 1;
+				else p[i][j] = p[i - 1][j - 1] + p[i - 1][j];
+			}
+		}
+		return p;
+	}
+	// retorna o valor máximo de uma coluna
+	private static double maxOfCol(double[][] mtx, int col) {
+		double max = mtx[0][col];
+		for (int i = 0; i < mtx.length; i++)
+			if (mtx[i][col] > max) max = mtx[i][col];
+		return max;
+	}
+	// retorna o valor mínimo de uma linha
+	private static double minOfLin(double[][] mtx, int lin) {
+		double min = mtx[lin][0];
+		for (int j = 0; j < mtx[lin].length; j++)
+			if (mtx[lin][j] < min) min = mtx[lin][j];
+		return min;
+	}
+	/**
+	 * Este método calcula e retorna o minimax de uma matriz passada como parâmetro. O minimax é o mínimo
+	 * entre os máxinos de cada coluna.
+	 * @param mtx a matriz da qual se deseja encontrar o minimax.
+	 * @param columns o número de colunas da matriz
+	 * @return o minimax de mtx.
+	 * @since 1.5
+	 */
+	public static double minimax(double[][] mtx, int columns) {
+		double minimax = maxOfCol(mtx, 0);
+		for (int j = 0; j < columns; j++) {
+			double mm = maxOfCol(mtx, j);
+			if (mm < minimax) minimax = mm;
+		}
+		return minimax;
+	}
+	/**
+	 * Este método calcula e retorna o maxmin de uma matriz passada como parâmetro. O maxmin é o máximo
+	 * entre os mínimos de cada linha.
+	 * @param mtx a matriz da qual se deseja encontrar o maxmin.
+	 * @param lines o número de linhas da matriz.
+	 * @return o maxmin de mtx.
+	 * @since 1.5
+	 */
+	public static double maxmin(double[][] mtx, int lines) {
+		double maxmin = minOfLin(mtx, 0);
+		for (int i = 0; i < lines; i++) {
+			double mm = minOfLin(mtx, i);
+			if (mm > maxmin) maxmin = mm;
+		}
+		return maxmin;
+	}
+	/**
+	 * Este
+	 * @param f
+	 * @param a
+	 * @param b
+	 * @param n
+	 * @return
+	 */
+	public static double riemann(DoubleFunction<Double> f, double a, double b, int n) {
+		double s = 0;
+		double h = (b - a) / n;
+		double x = a;
+		for (int i = 0; i < n; x += h, i++)
+			s += f.apply(x);
+		return s * h;
 	}
 }
