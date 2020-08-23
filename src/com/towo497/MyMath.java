@@ -4,12 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.security.InvalidParameterException;
 import java.util.function.DoubleFunction;
 
 /**
  * Esta classe dispõe métodos para vários cálculos matemáticos.
  * @autor Thiago de O. Alves
- * @version 1.5
+ * @version 1.6
  */ 
 public class MyMath {
 	/**
@@ -464,7 +465,7 @@ public class MyMath {
 	 * de Pascal. A primeira linha equivale à linha 0. Para encontrar os coeficientes do binômio até a
 	 * quarta potência, por exemplo, deve-se criar uma matriz de 5 linhas.
 	 * @param n a ordem da matriz (n x n), equivalente a quantidade de linhas.
-	 * @return uma matriz quadrada de n linhas onde cada uma é a correspondente no triângulo de Pascal.
+	 * @return Uma matriz quadrada de n linhas onde cada uma é a correspondente no triângulo de Pascal.
 	 * @since 1.5
 	 */
 	public static int[][] buildPascal(int n) {
@@ -497,7 +498,7 @@ public class MyMath {
 	 * entre os máxinos de cada coluna.
 	 * @param mtx a matriz da qual se deseja encontrar o minimax.
 	 * @param columns o número de colunas da matriz
-	 * @return o minimax de mtx.
+	 * @return O minimax de mtx.
 	 * @since 1.5
 	 */
 	public static double minimax(double[][] mtx, int columns) {
@@ -513,7 +514,7 @@ public class MyMath {
 	 * entre os mínimos de cada linha.
 	 * @param mtx a matriz da qual se deseja encontrar o maxmin.
 	 * @param lines o número de linhas da matriz.
-	 * @return o maxmin de mtx.
+	 * @return O maxmin de mtx.
 	 * @since 1.5
 	 */
 	public static double maxmin(double[][] mtx, int lines) {
@@ -525,12 +526,17 @@ public class MyMath {
 		return maxmin;
 	}
 	/**
-	 * Este
-	 * @param f
-	 * @param a
-	 * @param b
-	 * @param n
-	 * @return
+	 * Este método calcula e retorna a soma de Riemann de uma função dentro de um intervalo. A soma de Riemann
+	 * real é a soma das áreas de n retângulos baseados em um intervalo [a, b], cujas alturas são dadas pela 
+	 * fução que está sendo integrada.
+	 * @param f a função da qual se deseja calcular a soma de Riemann. É uma implementação da inteface
+	 * {@link DoubleFunction}.
+	 * @param a o limite inferior do intervalo de integração.
+	 * @param b o limite superior do intervalo de integração.
+	 * @param n o número de divisões do intervalo [a, b] usados na soma.
+	 * @return A soma de Riemann de f no intervalo [a, b] com n divisões.
+	 * @see DoubleFunction
+	 * @since 1.5
 	 */
 	public static double riemann(DoubleFunction<Double> f, double a, double b, int n) {
 		double s = 0;
@@ -539,5 +545,74 @@ public class MyMath {
 		for (int i = 0; i < n; x += h, i++)
 			s += f.apply(x);
 		return s * h;
+	}
+	/**
+	 * Exte método calcula e retorna a derivada numérica de dada função em um ponto.
+	 * @param f a função da qual se deseja calcular a derivada numérica. É uma implementação da inteface
+	 * {@link DoubleFunction}.
+	 * @param x o ponto de onde se deseja calcular o valor da derivada.
+	 * @param h a tolerância utilizada no cálculo da derivada numérica. É o raio do intervalo no de x é
+	 * o centro, (x - h, x + h). O valor da derivada se torna mais próximo do real quando h tende a 0.
+	 * @return a derivada numérica de f no ponto x com uma tolerância h.
+	 * @see DoubleFunction
+	 * @since 1.6
+	 */
+	public static double derivative(DoubleFunction<Double> f, double x, double h) {
+		return (f.apply(x + h) - f.apply(x - h)) / (2 * h);
+	}
+	/**
+	 * Este método implementa o método da bisseção para solucionar equações. Dada uma função f que define f(x) = 0, que deve ser resolvida,
+	 * a e b delimitam a raiz (isto é, a <= x <= b) e h é a tolerância, o comprimento mínimo do último intervalo no qual é feita a busca pela raiz.
+	 * Por exemplo, se f(x) = x² - 2, então root(f, 1, 2, 1e-15) retornaria 1.414213562373095 (= sqrt(2)), solucionando
+	 * assim a equação x² = 2. O método da bisseção funciona bissecionando repetidamente o intervalo e substituindo-o pela metade que contém
+	 * a raiz. Ele verifica o sinal do produto f(a)f(b) para determinar se a raiz está no intervalo [a, b].
+	 * @param f a função da qual se deseja extrair a raiz. É a expressão de f(x) na equação f(x) = 0. É uma implementação de {@link DoubleFunction}.
+	 * @param a o limite inferior do inrervalo no qual se deseja pesquisar a raiz da função.
+	 * @param b o limite superior do inrervalo no qual se deseja pesquisar a raiz da função.
+	 * @param h a precisão da busca pela raiz, que representa o comprimento mínimo aceitável do último intervalo a ser pesquisado.
+	 * @return o valor da raiz da função f com precisão h. É o ponto médio do último intervalo (de comprimento h) na pesquisa.
+	 * @throws IllegalArgumentException caso seja passado um intervalo [a, b] onde f(a) e f(b) possuem o mesmo sinal. Nesse caso o método não consegue
+	 * fazer a busca pela raiz.
+	 * @throws IllegalArgumentException caso a precisão passada como argumento seja maior que o comprimento do intervalo.
+	 * @see IllegalArgumentException
+	 * @see DoubleFunction
+	 * @since 1.6
+	 */
+	public static double root(DoubleFunction<Double> f, double a, double b, double h) {	
+		if (b < a) { 
+			double temp = a;
+			a = b;
+			b = temp;
+		}
+		if (f.apply(a) * f.apply(b) > 0) throw new IllegalArgumentException("this method can't search roots in this interval.") ;	
+		if (b - a < h) throw new IllegalArgumentException("wrong argument. The precision h is largest than interval length.");
+		double x = b + 1;
+		while (b - a > h) {
+			x = (a + b) / 2;
+			if (f.apply(x) * f.apply(b) > 0) b = x;				
+			else a = x;			
+		}
+		return x;		
+	}
+	/**
+	 * Este método implementa a regra trapezoidal para calcular o valor numérico da integral de uma função
+	 * dentro de um intervalo. A regra trapezoidal retorna a soma da áreas dos n trapézios que aproximam a
+	 * área sob o gráfico da função f.
+	 * @param f a função da qual se deseja calcular a integral. É uma implementação da inteface
+	 * {@link DoubleFunction}.
+	 * @param a o limite inferior do intervalo de integração.
+	 * @param b o limite superior do intervalo de integração.
+	 * @param n o número de divisões do intervalo [a, b] usados na soma.
+	 * @return A integral, pela regra trapezoidal, de f no intervalo [a, b] com n divisões.
+	 * @see DoubleFunction
+	 * @since 1.6
+	 */
+	public static double trap(DoubleFunction<Double> f, double a, double b, int n) {
+		double s = f.apply(a) + f.apply(b);
+		double h = (b - a) / n;
+		double x = a + h;
+		for (int i = 1; i < n; x += h, i++)
+			s += 2 * f.apply(x);
+		return s * h / 2;
 	}
 }
