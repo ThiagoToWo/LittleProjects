@@ -1,4 +1,4 @@
-package com.towo497;
+package testes;
 
 public class QuadraticGraph {
 

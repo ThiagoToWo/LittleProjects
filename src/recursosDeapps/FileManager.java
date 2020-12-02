@@ -1,4 +1,4 @@
-package com.towo497;
+package recursosDeapps;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +39,5 @@ public class FileManager {
 			System.out.println("Ocorreu um erro! " + e.getMessage());
 			return;
 		}
-	}
-	
-	
+	}	
 }

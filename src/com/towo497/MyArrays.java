@@ -324,7 +324,7 @@ public class MyArrays {
 	 * @param t o array cuja representação em String será retornada.
 	 * @return a representação em String de t.
 	 * @since 1.0
-	 * @see java.util.Arrays#toString(double[]).
+	 * @see java.util.Arrays#toString(double[])
 	 */
 	public static String toString(double[] t) {
 		return Arrays.toString(t);
@@ -334,7 +334,7 @@ public class MyArrays {
 	 * @param t o array cuja representação em String será retornada.
 	 * @return a representação em String de t.
 	 * @since 1.0
-	 * @see java.util.Arrays#toString(int[]).
+	 * @see java.util.Arrays#toString(int[])
 	 */
 	public static String toString(int[] t) {
 		return Arrays.toString(t);
@@ -344,7 +344,7 @@ public class MyArrays {
 	 * @param t o array cuja representação em String será retornada.
 	 * @return a representação em String de t.
 	 * @since 1.1
-	 * @see java.util.Arrays#toString(char[]).
+	 * @see java.util.Arrays#toString(char[])
 	 */
 	public static String toString(char[] t) {
 		return Arrays.toString(t);
@@ -354,7 +354,7 @@ public class MyArrays {
 	 * @param t o array cuja representação em String será retornada.
 	 * @return a representação em String de t.
 	 * @since 1.0
-	 * @see java.util.Arrays#toString(Object[]).
+	 * @see java.util.Arrays#toString(Object[])
 	 */
 	public static String toString(Object[] t) {
 		return Arrays.toString(t);

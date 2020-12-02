@@ -9,7 +9,7 @@ import java.util.function.DoubleFunction;
 /**
  * Esta classe dispõe métodos para vários cálculos matemáticos.
  * @autor Thiago de O. Alves
- * @version 1.6
+ * @version 1.8
  */ 
 public class MyMath {
 	/**
@@ -33,7 +33,7 @@ public class MyMath {
 	 * @see ArithmeticException
 	 * @since 1.0
 	 */
-	public static long fatorial(int n) {
+	public static long fact(int n) {
 		if (n < 2) return 1;
 		if (n > 20) throw new ArithmeticException("long overflow");
 		long fac = 1;
@@ -50,6 +50,8 @@ public class MyMath {
 	 * @since 1.0
 	 */
 	public static long gcd(long m, long n) {
+		if (m < 0) m *= -1;
+		if (n < 0) n *= -1;
 		long r;
 		if (m < n) {
 			long temp = m;
@@ -72,6 +74,8 @@ public class MyMath {
 	 * @since 1.2
 	 */
 	public static long lcm(long m, long n) {
+		if (m < 0) m *= -1;
+		if (n < 0) n *= -1;
 		return m * n / gcd(m, n);
 	}
 	/**
@@ -613,5 +617,62 @@ public class MyMath {
 		for (int i = 1; i < n; x += h, i++)
 			s += 2 * f.apply(x);
 		return s * h / 2;
+	}
+	/**
+	 * Este método calcula e retorna a aproximação de Stirling para o fatorial de n.
+	 * @param n o número que se deseja calcular uma aproximação do fatorial.
+	 * @return A aproximação de Stirling para o fatorial de n.
+	 * @since 1.7
+	 */
+	public static double stirling(long n) {		
+		return Math.sqrt(2 * Math.PI * n) * Math.pow(n / Math.E, n);		
+	}
+	/**
+	 * Este método calcula e retorna o logaritmo natural do fatorial de um inteiro.
+	 * @param n um inteiro.
+	 * @return O logaritmo natural de n.
+	 * @since 1.7
+	 * @see Math#log(double)
+	 */
+	public static double logOfFactorial(int n) {
+		double x = 0;
+		for (int i = 1; i <= n; i++) {
+			x += Math.log(i);
+		}
+		return x;
+	}
+	/**
+	 * Este método calcula e retorna o fatorial de um inteiro positivo como um double. Para valores maiores
+	 * que 170 é retornado infinity.
+	 * @param n um inteiro positivo.
+	 * @return O fatorial do parâmetro n como double.
+	 * @throws ArithmeticException se o resultado supera um long.	 
+	 * @see ArithmeticException
+	 * @since 1.7
+	 */
+	public static double factDouble(int n) {
+		if (n < 2) return 1;
+		double fac = 1;
+		for (int i = 2; i <= n; i++) {
+			fac *= i;
+		}
+		return fac;
+	}
+	/**
+	 * Este método calcula e retorna um array onde cada elemento é o logaritmo natural do fatorial de seu
+	 * respectivo índice.
+	 * @param n o último elemento do array a ser calculado o logaritmo natural de seu fatorial.
+	 * @return Um array com os logaritmos naturais de 1! a n!.
+	 * @since 1.7
+	 * @see Math#log(double)
+	 */
+	public static double[] tableLogOfFactorial(int n) {
+		double[] log = new double[n + 1];
+		double x = 0;
+		for (int i = 1; i <= n; i++) {
+			x += Math.log(i);
+			log[i] = x;
+		}
+		return log;
 	}
 }
