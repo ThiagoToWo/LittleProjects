@@ -93,6 +93,7 @@ public class Rational {
 	}
 	/**
 	 * Retorna um string com a representação da fração no formato N/D ou -N/D.
+	 * @since 1.0
 	 */
 	public String toString() {
 		return String.format("%d/%d", numerator, denominator);
