@@ -9,7 +9,7 @@ import java.util.function.DoubleFunction;
 /**
  * Esta classe dispõe métodos para vários cálculos matemáticos.
  * @autor Thiago de O. Alves
- * @version 1.8
+ * @version 1.9
  */ 
 public class MyMath {
 	/**
@@ -674,5 +674,33 @@ public class MyMath {
 			log[i] = x;
 		}
 		return log;
+	}
+	/**
+	 * Soma os elementos de índices correspondentes de dois arrays. Se um vetor for maior que o outro,
+	 * os elementos excedentes são repetidos. É retornado um array do tamanho do maior array passado
+	 * como parâmetro.
+	 * @param s um array.
+	 * @param t um array.
+	 * @return um array do tamanho do maior, t ou s, com a soma dos elementos correspondentes.
+	 * @since 1.9
+	 */
+	public static double[] somaVet(double[] s, double[] t) {
+		double[] arrayMin = null;
+		double[] arrayMax = null;
+		if (s.length < t.length) {
+			arrayMin = s;
+			arrayMax = t;
+		} else {
+			arrayMin = t;
+			arrayMax = s;
+		}
+		double[] solution = new double[arrayMax.length];
+		for (int i = 0; i < arrayMin.length; i++) {
+			solution[i] = arrayMin[i] + arrayMax[i];
+		}
+		for (int i = arrayMin.length; i < arrayMax.length; i++) {
+			solution[i] = arrayMax[i];
+		}
+		return solution;
 	}
 }
