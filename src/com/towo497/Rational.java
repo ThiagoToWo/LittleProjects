@@ -5,11 +5,7 @@ package com.towo497;
  * @version 1.0
  */ 
 public class Rational {
-	/**
-	 * numerador e denominador da fração.
-	 * private int numerator;
-	 * private int denominator;
-	 */
+	
 	private int numerator;
 	private int denominator;
 	/**

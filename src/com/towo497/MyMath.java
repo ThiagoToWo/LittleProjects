@@ -171,7 +171,7 @@ public class MyMath {
 	/**
 	 * Este método imprime no console, através de um PrintStream conectado a um OutputStream dado 
 	 * pelo parâmetro, o triângulo de Pascal até uma determinada linha.
-	 * O método usa long comb(int, int) de MyMath, então está sujeito a suas exceções, como estouro de long.
+	 * O método usa {@link MyMath#comb(int, int)}, então está sujeito a suas exceções, como estouro de long.
 	 * @param output um objeto OutputStream (ex. System.out).
 	 * @param line o número de linhas do triângulo, tendo a última como 61.
 	 * @throws ArithmeticException caso o valor de line seja maior que 61, pois nesse caso as linhas 
@@ -194,7 +194,7 @@ public class MyMath {
 	}
 	/**
 	 * Este método imprime em um arquivo de texto o triângulo de Pascal até uma determinada linha.
-	 * O método usa long comb(int, int) de MyMath, então está sujeito a suas exceções, como estouro de long.
+	 * O método usa {@link MyMath#comb(int, int)}, então está sujeito a suas exceções, como estouro de long.
 	 * @param file um objeto File (ex. new File("pascal.txt")).
 	 * @param line o número de linhas do triângulo, tendo a última como 61.
 	 * @throws ArithmeticException caso o valor de line seja maior que 61, pois nesse caso as linhas 
@@ -361,7 +361,7 @@ public class MyMath {
 	}
 	/**
 	 * Este método calcula e retorna o desvio absoluto médio dos elementos de um array. Este método usa o 
-	 * método double average(double[]) de MyMath para calcular as médias necessárias.
+	 * método {@link MyMath#average(double[])} para calcular as médias necessárias.
 	 * @param t o array do qual se deseja extrair o desvio absoluto médio dos elementos.
 	 * @return O desvio absoluto médio dos elementos do array passado como parâmetro.
 	 * @since 1.4
@@ -377,8 +377,8 @@ public class MyMath {
 	}
 	/**
 	 * Este método calcula a média dos elementos do array passado como parâmetro e retorna um array com
-	 * o desvio da média de cada elemento respectivo deste array. Ele usa o método double average(double[])
-	 * de MyMath para calcular a média desses elementos antes de calcular o desvio da média.
+	 * o desvio da média de cada elemento respectivo deste array. Ele usa o método {@link MyMath#average(double[])}
+	 * para calcular a média desses elementos antes de calcular o desvio da média.
 	 * @param t o array do qual se deseja extrair o desvio da média de cada elemento.
 	 * @return Um array com o desvio da média de cada elemento de t.
 	 * @since 1.4
@@ -393,7 +393,7 @@ public class MyMath {
 	}
 	/**
 	 * Este método calcula e retorna o desvio padrão dos elementos de um array. Este método usa o 
-	 * método double average(double[]) de MyMath para calcular a média dos elementos do conjunto.
+	 * método {@link MyMath#average(double[])} para calcular a média dos elementos do conjunto.
 	 * @param t o array do qual se deseja extrair o desvio padrão dos elementos.
 	 * @return O desvio padrão dos elementos do array passado como parâmetro. É baseado na fórmula
 	 * sqrt(sum / (t.length - 1)).
@@ -413,8 +413,8 @@ public class MyMath {
 	}
 	/**
 	 * Este método calcula e retorna um array com o escore padrão, ou escore Z, de cada elemento de um
-	 * array passado como parãmetro. Ele usa os métodos double average(double[]) e double stdev(double[])
-	 * de MyMath para calcular a média e o desvio padrão desses elementos.
+	 * array passado como parãmetro. Ele usa os métodos {@link MyMath#average(double[])} e {@link MyMath#stdev(double[])}
+	 * para calcular a média e o desvio padrão desses elementos.
 	 * @param t o array do qual se deseja extrair o escore padrão de cada elemento.
 	 * @return Um array com o escore padrão de cada elemento de t.
 	 * @since 1.4
@@ -440,7 +440,7 @@ public class MyMath {
 	 * E: z < -1,5.
 	 * Desta forma, se os níveis fossem normalmente distribuídos, este algoritmo produziria aproximadamente
 	 * 7% de As, 24% de Bs, 38% de Cs, 24% de Ds e 7% de Es. Aqui os valores de z são o escore padrão.
-	 * Ele usa os métodos double average(double[]) e double stdev(double[]) de MyMath para calcular a média
+	 * Ele usa os métodos {@link MyMath#average(double[])} e {@link MyMath#stdev(double[])} para calcular a média
 	 * e o desvio padrão dos elementos do parâmetro.
 	 * @param t o array do qual se deseja extrair a classificação de cada elemento.
 	 * @return Um array com uma classificação A, B, C, D ou E para cada elemento de t.
