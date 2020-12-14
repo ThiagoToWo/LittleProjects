@@ -46,7 +46,7 @@ public class Rational {
 	 * @return o resultado da soma de frações
 	 * @since 1.0
 	 */
-	public Rational soma(Rational r) {
+	public Rational mais(Rational r) {
 		int num = this.numerator * r.denominator + r.numerator * this.denominator;
 		int den = this.denominator * r.denominator;
 		return new Rational(num, den);
@@ -58,7 +58,7 @@ public class Rational {
 	 * @return o resultado da subtração de frações.
 	 * @since 1.0
 	 */
-	public Rational subtrai(Rational r) {
+	public Rational menos(Rational r) {
 		int num = this.numerator * r.denominator - r.numerator * this.denominator;
 		int den = this.denominator * r.denominator;
 		return new Rational(num, den);
@@ -70,7 +70,7 @@ public class Rational {
 	 * @return o resultado da multiplicação de frações.
 	 * @since 1.0
 	 */
-	public Rational multiplica(Rational r) {
+	public Rational vezes(Rational r) {
 		int num = this.numerator * r.numerator;
 		int den = this.denominator * r.denominator;
 		return new Rational(num, den);
@@ -82,7 +82,7 @@ public class Rational {
 	 * @return o resultado da divisão de frações.
 	 * @since 1.0
 	 */
-	public Rational divide(Rational r) {
+	public Rational divididoPor(Rational r) {
 		int num = this.numerator * r.denominator;
 		int den = this.denominator * r.numerator;
 		return new Rational(num, den);

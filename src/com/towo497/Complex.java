@@ -88,7 +88,7 @@ public class Complex {
 	 * @return o resultado da soma de complexos
 	 * @since 1.0
 	 */
-	public Complex soma(Complex c) {
+	public Complex mais(Complex c) {
 		double real = this.real + c.real;
 		double imag = this.imag + c.imag;
 		return new Complex(real, imag);
@@ -100,7 +100,7 @@ public class Complex {
 	 * @return o resultado da subtração de complexos
 	 * @since 1.0
 	 */
-	public Complex subtrai(Complex c) {
+	public Complex menos(Complex c) {
 		double real = this.real - c.real;
 		double imag = this.imag - c.imag;
 		return new Complex(real, imag);
@@ -112,7 +112,7 @@ public class Complex {
 	 * @return o resultado da multiplicação de complexos
 	 * @since 1.0
 	 */
-	public Complex multiplica(Complex c) {
+	public Complex vezes(Complex c) {
 		double real = this.real * c.real - this.imag * c.imag;
 		double imag = this.real * c.imag + this.imag * c.real ;
 		return new Complex(real, imag);
@@ -124,9 +124,9 @@ public class Complex {
 	 * @return o resultado da divisão de complexos
 	 * @since 1.0
 	 */
-	public Complex divide(Complex c) {
+	public Complex divididoPor(Complex c) {
 		Complex invC = c.getInverso();		
-		return this.multiplica(invC);
+		return this.vezes(invC);
 	}	
 	/**
 	 * Retorna um string com a representação do número complexo no formato (R, I), onde

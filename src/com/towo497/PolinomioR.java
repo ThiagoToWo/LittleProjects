@@ -65,7 +65,7 @@ public class PolinomioR {
 	 * @see MyMath#somaVet(double[], double[])
 	 * @since 1.0
 	 */
-	public PolinomioR soma(PolinomioR p) {
+	public PolinomioR mais(PolinomioR p) {
 		double[] soma = MyMath.somaVet(this.getCoeficientes(), p.getCoeficientes());
 		return new PolinomioR(soma);
 	}
@@ -78,7 +78,7 @@ public class PolinomioR {
 	 * @see MyMath#somaVet(double[], double[])
 	 * @since 1.0 
 	 */
-	public PolinomioR subtrai(PolinomioR p) {
+	public PolinomioR menos(PolinomioR p) {
 		PolinomioR pOp = p.getOposto();
 		double[] soma = MyMath.somaVet(this.getCoeficientes(), pOp.getCoeficientes());
 		return new PolinomioR(soma);
@@ -91,7 +91,7 @@ public class PolinomioR {
 	 * @see MyMath#somaVet(double[], double[])
 	 * @since 1.0
 	 */
-	public PolinomioR multiplica(PolinomioR p) {
+	public PolinomioR vezes(PolinomioR p) {
 		double[] mult = new double[this.getGrau() + p.getGrau() - 1];
 		for (int i = 0; i < this.getGrau(); i++) {
 			for (int j = 0; j < p.getGrau(); j++) {
@@ -99,6 +99,26 @@ public class PolinomioR {
 			}
 		}
 		return new PolinomioR(mult);
+	}
+	
+	public PolinomioR divididoPor(PolinomioR p) {
+		double[] arrayMin = null;
+		double[] arrayMax = null;
+		if (this.getGrau() < p.getGrau()) {
+			arrayMin = this.getCoeficientes();
+			arrayMax = p.getCoeficientes();
+		} else {
+			arrayMin = p.getCoeficientes();
+			arrayMax = this.getCoeficientes();
+		}
+		int n = arrayMin.length;
+		int m = arrayMax.length;
+		double[] div = new double[m - n];
+		for (int i = div.length; i >= 0 && m > 0 ; i--, m--) {
+			div[i] =  arrayMax[m] / arrayMin[n];
+			
+		}
+		return new PolinomioR(div);
 	}
 	/**
 	 * Retorna um string com a representação do polinômio no formato a0 +a1x +a2x^2 + ... +anx^n,
